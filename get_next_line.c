@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/03 18:00:57 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:42:12 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,56 +68,48 @@ void	ft_memmove(char *buf)
 	buf[j] = 0;
 }
 
+char	*searching_n(char *line, char *buf, int *i)
+{
+	while (buf[*i] && buf[*i] != '\n')
+		(*i)++;
+	if (buf[*i] == '\0')
+	{
+		line = ft_strjoin(line, buf);
+		buf[0] = 0;
+		(*i) = 0;
+	}
+	else if (buf[*i] == '\n')
+	{
+		line = ft_strjoin(line, buf);
+		ft_memmove(buf);
+	}
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
-	int			i;
 	int			bytes;
+	int			i;
 
 	line = NULL;
 	i = 0;
 	bytes = 0;
 	if (buf[0] != 0)
-	{
-		while (buf[i] && buf[i] != '\n')
-			i++;
-		if (buf[i] == '\0')
-		{
-			line = ft_strjoin(line, buf);
-			buf[0] = 0;
-			i = 0;
-		}
-		else if (buf[i] == '\n')
-		{
-			line = ft_strjoin(line, buf);
-			ft_memmove(buf);
-		}
-	}
+		line = searching_n(line, buf, &i);
 	while (buf[0] == 0 && buf[i] != '\n')
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes == (-1))
-			return (0);
-		if (bytes != BUFFER_SIZE)
-			return (ft_strjoin(line, buf));
+		if (bytes == -1)
+			return (NULL);
 		buf[bytes] = '\0';
-		while (buf[i] && buf[i] != '\n')
-			i++;
-		if (buf[i] == '\0')
-		{
-			line = ft_strjoin(line, buf);
-			buf[0] = 0;
-			i = 0;
-		}
-		else if (buf[i] == '\n')
-		{
-			line = ft_strjoin(line, buf);
-			ft_memmove(buf);
-		}
+		if (bytes == 0)
+			return (line);
+		else if ((bytes < BUFFER_SIZE && BUFFER_SIZE > 1)
+			|| (bytes <= BUFFER_SIZE && BUFFER_SIZE == 1 && buf[0] == '\n'))
+			return (searching_n(line, buf, &i));
+		line = searching_n(line, buf, &i);
 	}
 	return (line);
 }
-
-/*erreur pour fin de document bytes[BUFFER_SIZE], 
-il peut y avoir encore des \n dans cette fin de documents*/
