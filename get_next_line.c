@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/04 11:42:12 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:06:58 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strjoin(char *line, char *buf)
 	j = 0;
 	newline = malloc(ft_strlen(line, '\0') + ft_strlen(buf, '\n') + 2);
 	if (newline == NULL)
-		return (NULL);
+		return (ft_bzero(line, buf));
 	while (line != NULL && line[i])
 	{
 		newline[i] = line[i];
@@ -75,12 +75,16 @@ char	*searching_n(char *line, char *buf, int *i)
 	if (buf[*i] == '\0')
 	{
 		line = ft_strjoin(line, buf);
+		if (!line)
+			return (NULL);
 		buf[0] = 0;
 		(*i) = 0;
 	}
 	else if (buf[*i] == '\n')
 	{
 		line = ft_strjoin(line, buf);
+		if (!line)
+			return (NULL);
 		ft_memmove(buf);
 	}
 	return (line);
@@ -95,19 +99,18 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	i = 0;
-	bytes = 0;
 	if (buf[0] != 0)
 		line = searching_n(line, buf, &i);
 	while (buf[0] == 0 && buf[i] != '\n')
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if (bytes == -1)
-			return (NULL);
+			return (ft_bzero(line, buf));
 		buf[bytes] = '\0';
 		if (bytes == 0)
 			return (line);
 		else if ((bytes < BUFFER_SIZE && BUFFER_SIZE > 1)
-			|| (bytes <= BUFFER_SIZE && BUFFER_SIZE == 1 && buf[0] == '\n'))
+			|| (BUFFER_SIZE == 1 && buf[0] == '\n'))
 			return (searching_n(line, buf, &i));
 		line = searching_n(line, buf, &i);
 	}

@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/04 11:49:55 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:52:52 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ char	*ft_strjoin(char *line, char *buf);
 int		ft_free(char *s1, char *s2);
 int		ft_strlen(char	*str, char c);
 void	ft_memmove(char *buf);
+void	*ft_bzero(char	*line, char *buf);
 
 #endif
