@@ -4,3 +4,4 @@ main.c
 *.a
 read_error.txt
 test.txt
+main_bonus.c

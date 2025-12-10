@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/07 11:24:49 by flauweri         ###   ########.fr       */
+/*   Created: 2025/12/10 09:59:14 by flauweri          #+#    #+#             */
+/*   Updated: 2025/12/10 09:59:16 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strlen(char	*str, char c)
 {
@@ -79,7 +79,7 @@ char	*searching_n(char *line, char *buf, int *i)
 		line = ft_strjoin(line, buf);
 		if (!line)
 			return (NULL);
-		ft_bzero(NULL, buf);
+		buf[0] = 0;
 		(*i) = 0;
 	}
 	else if (buf[*i] == '\n')
@@ -94,27 +94,29 @@ char	*searching_n(char *line, char *buf, int *i)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[FD_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	int			bytes;
 	int			i;
 
 	line = NULL;
 	i = 0;
-	if (buf[0] != 0)
-		line = searching_n(line, buf, &i);
-	while (buf[0] == 0 && buf[i] != '\n')
+	if (fd > FD_MAX)
+		return (NULL);
+	if (buf[fd][0] != 0)
+		line = searching_n(line, buf[fd], &i);
+	while (buf[fd][0] == 0 && buf[fd][i] != '\n')
 	{
-		bytes = read(fd, buf, BUFFER_SIZE);
+		bytes = read(fd, buf[fd], BUFFER_SIZE);
 		if (bytes == -1)
-			return (ft_bzero(line, buf));
-		buf[bytes] = '\0';
+			return (ft_bzero(line, buf[fd]));
+		buf[fd][bytes] = '\0';
 		if (bytes == 0)
 			return (line);
 		else if ((bytes < BUFFER_SIZE && BUFFER_SIZE > 1)
-			|| (BUFFER_SIZE == 1 && buf[0] == '\n'))
-			return (searching_n(line, buf, &i));
-		line = searching_n(line, buf, &i);
+			|| (BUFFER_SIZE == 1 && buf[fd][0] == '\n'))
+			return (searching_n(line, buf[fd], &i));
+		line = searching_n(line, buf[fd], &i);
 	}
 	return (line);
 }
