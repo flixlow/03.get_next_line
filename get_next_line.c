@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/12 09:19:16 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:29:20 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,14 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	i = 0;
+	if (fd < 0 || BUFFER_SIZE == 0)
+		return (line);
 	if (buf[0] != 0)
 		line = searching_n(line, buf, &i);
 	while (buf[0] == 0 && buf[i] != '\n')
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes == -1 || BUFFER_SIZE == 0)
+		if (bytes == -1)
 			return (ft_bzero(line, buf));
 		buf[bytes] = '\0';
 		if (bytes == 0)
