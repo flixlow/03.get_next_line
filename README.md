@@ -14,12 +14,6 @@ The goal of this project is to deepen understanding of:
 - Efficient buffer-based reading
 - String manipulation
 
-The function must correctly handle:
-- Any valid file descriptor
-- Any buffer size
-- Incomplete lines or lines of unknown length
-- EOF and error cases gracefully
-
 ## Instructions
 
 ### Compilation
@@ -40,7 +34,7 @@ To use the function in another project:
 `#include "get_next_line.h"`
 
 Link your program with the compiled library: 
-`cc -Wall -Wextra -Werror main.c get_next_line.a`
+`cc -Wall -Wextra -Werror main.c get_next_line.c get_next_line_bonus.c`
 
 ## Resources
 Classic References

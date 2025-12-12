@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/04 13:52:52 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:19:04 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
-# include <fcntl.h>
 
 char	*get_next_line(int fd);
 char	*ft_substr(char *line);

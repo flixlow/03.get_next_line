@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flauweri <flauweri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:46:27 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/07 11:24:49 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:19:16 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	*get_next_line(int fd)
 	while (buf[0] == 0 && buf[i] != '\n')
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes == -1)
+		if (bytes == -1 || BUFFER_SIZE == 0)
 			return (ft_bzero(line, buf));
 		buf[bytes] = '\0';
 		if (bytes == 0)
@@ -118,3 +118,13 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+
+/*# include <fcntl.h>
+int	main(int ac, char **av)
+{
+	(void)ac;
+	int fd = open(av[1], O_RDONLY);
+	__builtin_printf("%s", get_next_line(fd));
+	close (fd);
+	return (0);
+}*/

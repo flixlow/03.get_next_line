@@ -6,7 +6,7 @@
 /*   By: flauweri <flauweri@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 09:59:14 by flauweri          #+#    #+#             */
-/*   Updated: 2025/12/10 09:59:16 by flauweri         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:19:42 by flauweri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	i = 0;
-	if (fd > FD_MAX)
+	if (fd >= FD_MAX || fd < 0)
 		return (NULL);
 	if (buf[fd][0] != 0)
 		line = searching_n(line, buf[fd], &i);
@@ -120,3 +120,13 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+
+/*# include <fcntl.h>
+int	main(int ac, char **av)
+{
+	(void)ac;
+	int fd = open(av[1], O_RDONLY);
+	__builtin_printf("%s", get_next_line(fd));
+	close (fd);
+	return (0);
+}*/
