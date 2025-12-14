@@ -1,40 +1,44 @@
-*This project has been created as part of the 42 curriculum by flauweri.*
+*This project was created as part of the 42 curriculum by flauweri.*
 
 # Get Next Line
 
 ## Description
-Get Next Line is a project designed to implement a function capable of reading 
-a file descriptor line by line, returning one line per function call—regardless 
-of the internal buffering behavior of the operating system.
+Get Next Line implements a function that reads a file descriptor line by line (ending with '\n'), returning one line per call, regardless of the operating system's internal buffering behavior.
 
 The goal of this project is to deepen understanding of:
-- Static variables
+- **Static variables**
+- **Parsing files**
 - Memory allocation and management
 - File descriptor handling
 - Efficient buffer-based reading
 - String manipulation
 
+For example, given this file, get_next_line will return on the first call:
+`*This project has been created as part of the 42 curriculum by flauweri.*`
+
+On the second call, it will return a newline (`\n`), and on the third call, it will return:
+`# Get Next Line`
+
 ## Instructions
 
-### Compilation
-The project is compiled using the provided `Makefile`.
-
-Available rules:
-- `make` # Compiles get_next_line mandatory part
-- `make bonus` # Compiles get_next_line with bonus (multiple FDs)
-- `make clean` # Removes object files
-- `make fclean` # Removes object files and library
-- `make re` # Rebuilds everything
-
 ### Usage
-To use the function in another project:
+To use the function with your own main.c:
 
-1. Include the header:
+Include this in main.c:\
+`#include "get_next_line.h"`\
+`# include <fcntl.h>`
 
-`#include "get_next_line.h"`
+Compile with your main:\
+`cc -Wall -Wextra -Werror main.c get_next_line.c get_next_line_utils.c -D BUFFER_SIZE=(42)`
 
-Link your program with the compiled library: 
-`cc -Wall -Wextra -Werror main.c get_next_line.c get_next_line_bonus.c`
+then:\
+`./a.out "file_name"`
+
+Compile with bonus:\
+`cc -Wall -Wextra -Werror main_bonus.c get_next_line_bonus.c get_next_line_utils_bonus.c -D BUFFER_SIZE=(42)`
+
+then:\
+`./a.out "file_name_1" "file_name_2" "file_name_3" ...`
 
 ## Resources
 Classic References
@@ -43,7 +47,8 @@ Classic References
 - 42 official subject PDF
 
 AI Usage
+- what is a static variable ?
+- what is the parsing of a file ?
+- how does read work, what are its return ?
 
-AI assistance was used exclusively for: Structuring the README
-
-No AI-generated code was inserted into the project.
+AI assistance was used for: structuring the README.
